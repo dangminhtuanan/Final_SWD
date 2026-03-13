@@ -30,6 +30,7 @@ import statsRoutes from "./routes/statsRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import swaggerSpec from "./config/swagger.js";
+import connectDB from "./config/db.js";
 import { authenticateToken } from "./middleware/authMiddleware.js";
 import {
   requireAdmin,
@@ -87,6 +88,15 @@ app.get("/", (req, res) => {
     success: true,
     message: "Backend is running",
   });
+});
+
+app.use("/api", async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.use("/api/users", authRoutes);
