@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../src/context/AuthContext';
-import axios from 'axios';
+import api from '../../src/services/axios';
 import { toast } from 'sonner';
 
 const staffAPI = {
     getProducts: async (params) => {
-        const response = await axios.get('http://localhost:5001/api/products', {
-            params,
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        });
+        const response = await api.get('/products', { params });
         return response.data;
     },
     getCategories: async () => {
-        const response = await axios.get('http://localhost:5001/api/categories', {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        });
+        const response = await api.get('/categories');
         return response.data;
     },
 };

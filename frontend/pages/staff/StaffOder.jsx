@@ -2,23 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../src/context/AuthContext';
 import { orderAPI } from '../../src/services/api';
-import axios from 'axios';
+import api from '../../src/services/axios';
 import { toast } from 'sonner';
 
 const staffAPI = {
     getOrders: async (params) => {
-        const response = await axios.get('http://localhost:5001/api/staff/orders', {
-            params,
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        });
+        const response = await api.get('/staff/orders', { params });
         return response.data;
     },
     updateOrderStatus: async (id, status) => {
-        const response = await axios.put(
-            `http://localhost:5001/api/staff/orders/${id}/status`,
-            { status },
-            { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
-        );
+        const response = await api.put(`/staff/orders/${id}/status`, { status });
         return response.data;
     },
 };
